@@ -10,12 +10,37 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Buttons>
+          <button value="A">A</button>
+          <button value="B">B</button>
+          <button value="C">C</button>
+          <button>D</button>
+        </Buttons>
       </div>
     );
   }
 }
-
+class Buttons extends Component {
+  constructor() {
+    super();
+    this.state = {selected: 'None'};
+  }
+  selectItem(selected){
+    this.setState({selected})
+  }
+  render() {
+    let fn = child => React.cloneElement(child, {
+      onClick: this.selectItem.bind(this, child.props.children)
+    })
+    let items = React.Children.map(this.props.children, fn);
+    return (
+      <div>
+        <h2>
+          You have selected: {this.state.selected}
+        </h2>
+        {items}
+      </div>
+    )
+  }
+}
 export default App;
